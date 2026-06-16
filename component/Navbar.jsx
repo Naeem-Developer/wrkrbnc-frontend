@@ -1,6 +1,5 @@
 'use client'
 import React from 'react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState } from "react";
@@ -9,49 +8,42 @@ import { Menu, X } from "lucide-react";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-    const pathname = usePathname();
-  
-  
-    
+  const pathname = usePathname();
 
   return (
     <>
-      <nav className="bg-white shadow-md sticky top-0 z-20 p-2 flex justify-between items-center w-full">
+      <nav className="bg-surface h-[72px] border-b border-border sticky top-0 z-20 px-6 flex justify-between items-center w-full shadow-sm">
       {/* Logo */}
       <div className="cursor-pointer">
         <Link href="/">
-          <Image
-            src="/img.jpg"
-            width={160}
-            height={50}
-            alt="WrkrBnC"
-            className="h-auto w-auto"
-          />
+          <span className="font-bold text-[22px] text-primary tracking-tight">WrkrBnC.</span>
         </Link>
       </div>
 
       {/* Desktop Links */}
-      <div className="hidden md:flex gap-6 items-center pr-2">
+      <div className="hidden md:flex gap-6 items-center">
         <Link
           href="/#services"
-          className="text-gray-500 hover:text-black font-semibold transition-colors"
+          className="text-[14px] text-secondary hover:text-primary font-medium transition-colors"
         >
           Services
         </Link>
         <Link
           href="/#howitworks"
-          className="text-gray-500 hover:text-black font-semibold transition-colors"
+          className="text-[14px] text-secondary hover:text-primary font-medium transition-colors"
         >
           How It Works
         </Link>
-        <button className="border-0 text-white rounded-md px-4 py-2 font-semibold bg-pink-500 hover:bg-pink-300 transition-colors">
-         <a href="/login">Login</a> 
-        </button>
+        <Link href="/login">
+          <button className="bg-accent text-primary px-[24px] py-[10px] rounded-lg font-semibold hover:bg-accent-dark transition-all">
+            Login
+          </button>
+        </Link>
       </div>
 
       {/* Mobile Menu Button */}
       <button
-        className="md:hidden text-gray-700 focus:outline-none"
+        className="md:hidden text-primary focus:outline-none"
         onClick={() => setIsOpen(!isOpen)}
       >
         {isOpen ? <X size={28} /> : <Menu size={28} />}
@@ -59,24 +51,26 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="absolute top-16 left-0 w-full bg-white shadow-md flex flex-col items-center gap-4 py-6 md:hidden">
+        <div className="absolute top-[72px] left-0 w-full bg-surface shadow-md flex flex-col items-center gap-4 py-6 md:hidden border-b border-border">
           <Link
             href="/#services"
-            className="text-gray-600 hover:text-black font-semibold"
+            className="text-[14px] text-secondary hover:text-primary font-medium"
             onClick={() => setIsOpen(false)}
           >
             Services
           </Link>
           <Link
             href="/#howitworks"
-            className="text-gray-600 hover:text-black font-semibold"
+            className="text-[14px] text-secondary hover:text-primary font-medium"
             onClick={() => setIsOpen(false)}
           >
             How It Works
           </Link>
-          <button className="border-0 text-white rounded-md px-4 py-2 font-semibold bg-pink-500 hover:bg-pink-300 transition-colors">
-            Login
-          </button>
+          <Link href="/login" onClick={() => setIsOpen(false)}>
+            <button className="bg-accent text-primary px-[24px] py-[10px] rounded-lg font-semibold hover:bg-accent-dark transition-all">
+              Login
+            </button>
+          </Link>
         </div>
       )}
     </nav>

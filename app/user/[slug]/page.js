@@ -25,18 +25,25 @@ export default function WorkerDashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  const [error, setError] = useState(null);
+
   //  load user data
   useEffect(() => {
     const fetchData = async () => {
+      setError(null);
       try {
         const UserInfo = await axios.get(`${API_BASE_URL}/getUserDetails/${slug}`)
         if (UserInfo.data.success) {
           setWorker(UserInfo.data.data)
           setIsuser(true);
-          setIsLoading(false);
+        } else {
+          setError("Worker profile not found.");
         }
-      } catch (error) {
-        console.error("error", error)
+      } catch (err) {
+        console.error("error fetching worker data", err);
+        setError("Unable to load worker dashboard details.");
+      } finally {
+        setIsLoading(false);
       }
     }
 
@@ -156,9 +163,23 @@ export default function WorkerDashboard() {
     { id: "settings", label: "Settings", icon: Settings },
   ];
 
-  if (isLoading || !isuser) {
+  if (isLoading) {
     return <WrkrBnCLoader />
   }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-bg flex items-center justify-center">
+        <div className="bg-surface rounded-[16px] border border-border p-8 text-center max-w-md">
+          <p className="text-primary text-[18px] font-[600] mb-4">Dashboard Error</p>
+          <p className="text-secondary text-[15px] mb-6">{error}</p>
+          <button onClick={() => window.location.reload()} className="bg-accent text-primary px-6 py-3 rounded-[10px] font-[600] hover:bg-accent-dark transition-colors">Reload Page</button>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isuser) return null;
 
   return (
     <>
@@ -166,24 +187,25 @@ export default function WorkerDashboard() {
         <>
           <div className="min-h-screen bg-gray-100 flex flex-col md:flex-row">
             {/* Mobile Header */}
-            <div className="md:hidden bg-gray-900 text-white p-4 flex justify-between items-center sticky top-0 z-50 shadow-lg">
+            <div className="md:hidden bg-primary text-white p-4 flex justify-between items-center sticky top-0 z-50 shadow-sm border-b border-white/10">
               <div className="flex items-center gap-3">
                 <button
                   onClick={toggleMobileMenu}
-                  className="p-2 hover:bg-gray-800 rounded-lg"
+                  className="p-2 hover:bg-white/10 rounded-lg transition-colors"
                 >
                   {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
                 </button>
-                <div className="text-xl font-bold text-pink-400">Worker Panel</div>
+                <div className="text-[18px] font-[600] text-accent">Worker Panel</div>
               </div>
               <div className="flex items-center gap-4">
-                <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-pink-400">
-                  <Image
-                    src={worker.Profile_Pic || "/default-avatar.png"}
-                    alt="Profile"
-                    fill
-                    className="object-cover"
-                  />
+                <div className="relative w-10 h-10 rounded-full overflow-hidden border border-accent">
+                    <Image
+                      src={worker.Profile_Pic || "/default-avatar.png"}
+                      alt="Profile"
+                      fill
+                      sizes="40px"
+                      className="object-cover"
+                    />
                 </div>
               </div>
             </div>
@@ -198,22 +220,21 @@ export default function WorkerDashboard() {
               ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}
               md:translate-x-0 transition-transform duration-300 ease-in-out
               fixed md:relative inset-y-0 left-0 z-40
-              w-64 bg-gray-900 text-gray-200 shadow-xl flex flex-col
-              md:flex
+              w-[260px] bg-primary text-white/70 shadow-xl flex flex-col md:flex border-r border-white/10
             `}>
-              <div className="hidden md:block text-2xl font-bold text-pink-400 p-6">
+              <div className="hidden md:block text-[22px] font-[700] text-accent p-6 border-b border-white/10">
                 Worker Panel
               </div>
-              <nav className="flex-1 px-4 space-y-3 py-6 md:py-0">
+              <nav className="flex-1 px-4 space-y-3 py-6 md:py-6">
                 {navigationItems.map((item) => (
                   <button
                     key={item.id}
                     onClick={() => setSection(item.id)}
                     className={`
-                      flex items-center gap-3 w-full px-4 py-3 rounded-lg font-medium transition
+                      flex items-center gap-3 w-full px-4 py-3 rounded-[8px] font-[500] transition-colors
                       ${section === item.id
-                        ? "bg-pink-500 text-white"
-                        : "hover:bg-gray-700 hover:text-white"
+                        ? "bg-accent text-primary"
+                        : "hover:bg-primary-mid hover:text-white"
                       }
                     `}
                   >
@@ -222,10 +243,10 @@ export default function WorkerDashboard() {
                   </button>
                 ))}
               </nav>
-              <div className="p-4 border-t border-gray-700 mt-auto">
+              <div className="p-4 border-t border-white/10 mt-auto">
                 <button
                   onClick={logout}
-                  className="flex items-center gap-3 w-full text-red-400 hover:text-red-600 transition px-4 py-3 rounded-lg hover:bg-gray-800"
+                  className="flex items-center gap-3 w-full text-[#ef4444] hover:text-[#dc2626] transition-colors px-4 py-3 rounded-[8px] hover:bg-[#ef4444]/10 font-[500]"
                 >
                   <LogOut size={20} />
                   <span>Logout</span>
@@ -234,29 +255,31 @@ export default function WorkerDashboard() {
             </aside>
 
             {/* Main Content */}
-            <main className="flex-1 p-4 md:p-6 space-y-6">
+            <main className="flex-1 p-4 md:p-6 space-y-6 bg-bg">
               {/* Profile Section */}
               {section === "profile" && (
-                <div className="bg-white shadow-xl rounded-2xl p-4 md:p-6">
-                  <h2 className="text-lg md:text-xl font-semibold text-pink-600 mb-4">Profile</h2>
-                  <div className="flex flex-col items-center md:items-start md:flex-row gap-6">
-                    <div className="relative w-32 h-32 md:w-28 md:h-28 rounded-full overflow-hidden border-4 border-pink-300 shadow-md">
+                <div className="bg-surface border border-border rounded-[16px] p-6 md:p-8">
+                  <h2 className="text-[20px] font-[700] text-primary mb-6 flex items-center gap-3 border-b border-border pb-4">Profile</h2>
+                  <div className="flex flex-col items-center md:items-start md:flex-row gap-8">
+                    <div className="relative w-32 h-32 md:w-32 md:h-32 rounded-full overflow-hidden border border-border">
                       <Image
                         src={worker.Profile_Pic || "/default-avatar.png"}
                         alt="Profile"
                         fill
+                        sizes="128px"
                         className="object-cover"
+                        priority
                       />
                     </div>
-                    <div className="flex-1 text-center md:text-left">
-                      <p className="text-lg font-semibold text-gray-900">{worker.First_Name}.{worker.Last_Name?.charAt(0) || ''}</p>
-                      <p className="text-pink-600">{worker.Profession}</p>
-                      <p className="text-gray-600 flex items-center justify-center md:justify-start gap-1">
-                        <MapPin size={16} />
+                    <div className="flex-1 text-center md:text-left space-y-2">
+                      <p className="text-[24px] font-[600] text-primary">{worker.First_Name}.{worker.Last_Name?.charAt(0) || ''}</p>
+                      <p className="text-[16px] font-[500] text-accent">{worker.Profession}</p>
+                      <p className="text-secondary flex items-center justify-center md:justify-start gap-2 text-[14px]">
+                        <MapPin size={16} className="text-accent" />
                         {worker.City}
                       </p>
-                      <p className="text-pink-500 font-medium mt-2">Available</p>
-                      <p className="text-gray-700 mt-2">{worker.Description || "No description provided"}</p>
+                      <p className="text-success font-[500] text-[14px] bg-success/10 w-fit px-3 py-1 rounded-[20px] mx-auto md:mx-0 mt-2">Available</p>
+                      <p className="text-secondary mt-4 text-[15px] max-w-2xl">{worker.Description || "No description provided"}</p>
                     </div>
                   </div>
                 </div>
@@ -264,8 +287,8 @@ export default function WorkerDashboard() {
 
               {/* Services Section */}
               {section === "services" && (
-                <div className="bg-white shadow-xl rounded-2xl p-4 md:p-6">
-                  <h2 className="text-lg md:text-xl font-semibold text-pink-600 mb-4">Manage Services</h2>
+                <div className="bg-surface border border-border rounded-[16px] p-6 md:p-8">
+                  <h2 className="text-[20px] font-[700] text-primary mb-6 flex items-center gap-3 border-b border-border pb-4">Manage Services</h2>
                   <form onSubmit={addService} className="flex flex-col sm:flex-row gap-3 mt-4">
                     <input
                       type="text"
@@ -274,7 +297,7 @@ export default function WorkerDashboard() {
                       onChange={(e) =>
                         setNewService({ ...newService, title: e.target.value })
                       }
-                      className="border rounded-lg px-4 py-3 flex-1 w-full sm:w-auto"
+                      className="border border-border bg-surface-2 text-primary placeholder-muted rounded-[8px] px-4 py-3 flex-1 w-full sm:w-auto outline-none focus:border-accent transition-colors"
                     />
                     <input
                       type="text"
@@ -283,41 +306,41 @@ export default function WorkerDashboard() {
                       onChange={(e) =>
                         setNewService({ ...newService, price: e.target.value })
                       }
-                      className="border rounded-lg px-4 py-3 w-full sm:w-32"
+                      className="border border-border bg-surface-2 text-primary placeholder-muted rounded-[8px] px-4 py-3 w-full sm:w-32 outline-none focus:border-accent transition-colors"
                     />
                     <button
                       type="submit"
-                      className="bg-black  text-white px-6 py-3 rounded-lg flex items-center justify-center gap-2"
+                      className="bg-accent hover:bg-accent-dark text-primary px-6 py-3 rounded-[8px] font-[600] flex items-center justify-center gap-2 transition-colors"
                     >
                       <Plus size={18} />
                       <span>Add</span>
                     </button>
                   </form>
-                  <div className="mt-6 space-y-3">
+                  <div className="mt-8 space-y-3">
                     {worker?.services?.length > 0 ? (
                       worker.services.map((service, idx) => (
                         <div
                           key={idx}
-                          className="flex justify-between items-center bg-gray-50 px-4 py-3 rounded-lg shadow-sm"
+                          className="flex justify-between items-center bg-surface-2 border border-border px-5 py-4 rounded-[12px] hover:border-accent transition-colors"
                         >
-                          <span className="text-sm md:text-base">
-                            {service.title} -{" "}
-                            <span className="text-pink-600 font-semibold">
+                          <span className="text-[15px] font-[500] text-primary flex items-center gap-2 flex-wrap">
+                            {service.title} <span className="text-muted hidden sm:inline">•</span>
+                            <span className="text-accent font-[700] bg-accent-light px-2 py-1 rounded-[6px] text-[13px]">
                               Rs.{service.price}
                             </span>
                           </span>
                           <button
                             onClick={() => deleteService(idx)}
-                            className="text-red-500 hover:text-red-700 p-1"
+                            className="text-[#ef4444] hover:text-[#dc2626] p-2 hover:bg-[#ef4444]/10 rounded-[8px] transition-colors"
                           >
                             <Trash2 size={18} />
                           </button>
                         </div>
                       ))
                     ) : (
-                      <div className="text-center py-8 text-gray-500">
-                        <p className="text-lg">No services available</p>
-                        <p className="text-sm mt-2">Add your first service above</p>
+                      <div className="text-center py-10 text-muted bg-surface-2 border border-border rounded-[12px]">
+                        <p className="text-[16px] font-[500]">No services available</p>
+                        <p className="text-[14px] mt-1">Add your first service above</p>
                       </div>
                     )}
                   </div>
@@ -326,8 +349,8 @@ export default function WorkerDashboard() {
 
               {/* Portfolio Section */}
               {section === "portfolio" && (
-                <div className="bg-white shadow-xl rounded-2xl p-4 md:p-6">
-                  <h2 className="text-lg md:text-xl font-semibold text-pink-600 mb-4">Manage Portfolio</h2>
+                <div className="bg-surface border border-border rounded-[16px] p-6 md:p-8">
+                  <h2 className="text-[20px] font-[700] text-primary mb-6 flex items-center gap-3 border-b border-border pb-4">Manage Portfolio</h2>
                   <form
                     onSubmit={addportfolio}
                     className="flex flex-col md:flex-row gap-3 mt-4"
@@ -341,14 +364,7 @@ export default function WorkerDashboard() {
                       onChange={(e) =>
                         setNewPortfolio({ ...newPortfolio, title: e.target.value })
                       }
-                      className="
-      border rounded-lg w-full 
-      px-4 py-3 
-      text-base
-      h-12 
-      md:h-14
-      md:flex-1
-    "
+                      className="border border-border bg-surface-2 text-primary placeholder-muted rounded-[8px] w-full px-4 py-3 text-[15px] h-12 md:h-14 md:flex-1 outline-none focus:border-accent transition-colors"
                     />
 
                     {/* File Upload */}
@@ -360,57 +376,41 @@ export default function WorkerDashboard() {
                       onChange={(e) =>
                         setNewPortfolio({ ...newPortfolio, image: e.target.files[0] })
                       }
-                      className="
-      border rounded-lg w-full
-      px-4 py-2
-      text-base
-      h-12 
-      md:h-14
-      md:flex-1
-      file:mr-4 file:py-2 file:px-4 
-      file:rounded-full file:border-0 
-      file:text-sm file:font-semibold 
-      file:bg-pink-50 file:text-pink-700 
-      hover:file:bg-pink-100
-    "
+                      className="border border-border bg-surface-2 text-primary rounded-[8px] w-full px-4 py-2 text-[15px] h-12 md:h-14 md:flex-1 file:mr-4 file:py-2 file:px-4 file:rounded-[20px] file:border-0 file:text-[13px] file:font-[600] file:bg-accent file:text-primary hover:file:bg-accent-dark file:cursor-pointer file:transition-colors"
                     />
 
                     {/* Add Button */}
                     <button
                       type="submit"
-                      className="
-      bg-black
-      text-white rounded-lg 
-      px-6 py-3 
-      h-12 md:h-14
-      flex items-center justify-center gap-2
-    "
+                      className="bg-accent hover:bg-accent-dark text-primary rounded-[8px] px-6 py-3 h-12 md:h-14 font-[600] flex items-center justify-center gap-2 transition-colors"
                     >
                       <Plus size={18} />
                       <span>Add</span>
                     </button>
                   </form>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mt-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mt-8">
                     {worker?.portfolio && worker.portfolio.length > 0 ? (
                       worker.portfolio.map((job, index) => (
                         <div
                           key={index}
-                          className="rounded-xl overflow-hidden shadow-md bg-white relative group hover:shadow-lg transition-shadow duration-300"
+                          className="rounded-[12px] overflow-hidden border border-border bg-surface relative group hover:border-accent transition-colors"
                         >
                           <div className="relative w-full h-48">
                             <Image
                               src={job.image || "/placeholder-image.jpg"}
                               alt={job.title || "Portfolio item"}
                               fill
+                              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                               className="object-cover group-hover:scale-105 transition-transform duration-300"
+                              loading="lazy"
                             />
                           </div>
-                          <div className="p-4">
-                            <h3 className="font-semibold text-gray-800 truncate">{job.title}</h3>
+                          <div className="p-4 border-t border-border">
+                            <h3 className="font-[600] text-primary truncate text-[16px]">{job.title}</h3>
                             <button
                               onClick={() => deletePortfolio(job._id)}
-                              className="absolute top-3 right-3 bg-red-100 text-red-600 rounded-full p-2 hover:bg-red-200 transition-colors"
+                              className="absolute top-3 right-3 bg-surface/90 text-[#ef4444] rounded-[8px] p-2 hover:bg-[#ef4444] hover:text-white transition-colors border border-border shadow-sm"
                             >
                               <Trash2 size={16} />
                             </button>
@@ -418,12 +418,12 @@ export default function WorkerDashboard() {
                         </div>
                       ))
                     ) : (
-                      <div className="col-span-full text-center py-12">
-                        <div className="text-gray-400 mb-4">
+                      <div className="col-span-full text-center py-12 bg-surface-2 border border-border rounded-[12px]">
+                        <div className="text-muted mb-4">
                           <ImageIcon size={48} className="mx-auto" />
                         </div>
-                        <p className="text-gray-600 text-lg">No portfolio added yet</p>
-                        <p className="text-gray-500 text-sm mt-2">Add your work samples above</p>
+                        <p className="text-primary font-[500] text-[16px]">No portfolio added yet</p>
+                        <p className="text-secondary text-[14px] mt-2">Add your work samples above</p>
                       </div>
                     )}
                   </div>
@@ -432,7 +432,7 @@ export default function WorkerDashboard() {
 
               {/* Settings Section */}
               {section === "settings" && (
-                <div className="bg-white shadow-xl rounded-2xl p-4 md:p-6">
+                <div className="bg-surface border border-border rounded-[16px] p-6 md:p-8">
                   <Setting id={slug} />
                 </div>
               )}

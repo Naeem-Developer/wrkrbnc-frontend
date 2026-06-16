@@ -27,15 +27,21 @@ export default function ClientDashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const [error, setError] = useState(null);
+
   useEffect(() => {
     const fetchClient = async () => {
+      setError(null);
       try {
         const res = await axios.get(`${API_BASE_URL}/getClientDetails/${slug}`);
         if (res.data.success) {
           setClient(res.data.data);
+        } else {
+          setError("Client details not found.");
         }
-      } catch (error) {
-        handleError("Unable to load client details");
+      } catch (err) {
+        setError("Unable to load client details");
+        console.error("error fetching client:", err);
       } finally {
         setIsLoading(false);
       }
@@ -70,12 +76,24 @@ export default function ClientDashboard() {
 
   if (isLoading) return <WrkrBnCLoader />;
 
+  if (error) {
+    return (
+      <div className="min-h-screen bg-bg flex items-center justify-center">
+        <div className="bg-surface rounded-[16px] border border-border p-8 text-center max-w-md">
+          <p className="text-primary text-[18px] font-[600] mb-4">Dashboard Error</p>
+          <p className="text-secondary text-[15px] mb-6">{error}</p>
+          <button onClick={() => window.location.reload()} className="bg-accent text-primary px-6 py-3 rounded-[10px] font-[600] hover:bg-accent-dark transition-colors">Reload Page</button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
-      <div className="min-h-screen bg-gray-100 flex flex-col md:flex-row">
+      <div className="min-h-screen bg-bg flex flex-col md:flex-row">
         {/* Mobile Top Navbar */}
-        <div className="md:hidden bg-gray-900 text-white flex items-center justify-between px-5 py-4">
-          <h1 className="text-xl text-pink-500 font-semibold">Client Panel</h1>
+        <div className="md:hidden bg-primary text-white flex items-center justify-between px-5 py-4">
+          <h1 className="text-[18px] text-accent font-[600]">Client Panel</h1>
           <button onClick={() => setIsMenuOpen(!isMenuOpen)}>
             <Menu size={26} />
           </button>
@@ -83,61 +101,61 @@ export default function ClientDashboard() {
 
         {/* Mobile Dropdown Menu */}
         {isMenuOpen && (
-          <div className="md:hidden bg-gray-800 text-gray-200 px-4 py-3 space-y-2 animate-slideDown">
-            <button onClick={() => { setSection("profile"); setIsMenuOpen(false); }} className="flex w-full items-center gap-2 py-2 hover:text-white">
+          <div className="md:hidden bg-primary-dark text-white/70 px-4 py-3 space-y-2 animate-slideDown">
+            <button onClick={() => { setSection("profile"); setIsMenuOpen(false); }} className="flex w-full items-center gap-2 py-2 hover:text-white transition-colors">
               <User size={18} /> Profile
             </button>
-            <button onClick={() => { setSection("bookings"); setIsMenuOpen(false); }} className="flex w-full items-center gap-2 py-2 hover:text-white">
+            <button onClick={() => { setSection("bookings"); setIsMenuOpen(false); }} className="flex w-full items-center gap-2 py-2 hover:text-white transition-colors">
               <Briefcase size={18} /> Bookings
             </button>
-            <button onClick={() => { setSection("favorites"); setIsMenuOpen(false); }} className="flex w-full items-center gap-2 py-2 hover:text-white">
+            <button onClick={() => { setSection("favorites"); setIsMenuOpen(false); }} className="flex w-full items-center gap-2 py-2 hover:text-white transition-colors">
               <Heart size={18} /> Favorites
             </button>
-            <button onClick={() => { setSection("settings"); setIsMenuOpen(false); }} className="flex w-full items-center gap-2 py-2 hover:text-white">
+            <button onClick={() => { setSection("settings"); setIsMenuOpen(false); }} className="flex w-full items-center gap-2 py-2 hover:text-white transition-colors">
               <Settings size={18} /> Settings
             </button>
-            <button onClick={handleLogout} className="flex w-full items-center gap-2 py-2 text-red-400 hover:text-red-600">
+            <button onClick={handleLogout} className="flex w-full items-center gap-2 py-2 text-[#ef4444] hover:text-[#dc2626] transition-colors">
               <LogOut size={18} /> Logout
             </button>
           </div>
         )}
 
         {/* Desktop Sidebar */}
-        <aside className="hidden md:flex w-64 bg-gray-900 text-gray-200 flex-col">
-          <div className="text-2xl font-bold text-pink-400 p-6">Client Panel</div>
+        <aside className="hidden md:flex w-[260px] bg-primary text-white/70 flex-col">
+          <div className="text-[22px] font-[700] text-accent p-6 border-b border-white/10">Client Panel</div>
 
-          <nav className="flex-1 px-4 space-y-3">
+          <nav className="flex-1 px-4 space-y-3 py-6">
             <button
               onClick={() => setSection("profile")}
-              className={`flex items-center gap-2 px-3 py-2 w-full rounded-lg ${section === "profile" ? "bg-pink-500 text-white" : "hover:bg-gray-700"}`}
+              className={`flex items-center gap-3 px-4 py-3 w-full rounded-lg font-[500] transition-colors ${section === "profile" ? "bg-accent text-primary" : "hover:bg-primary-mid hover:text-white"}`}
             >
               <User size={18} /> Profile
             </button>
 
             <button
               onClick={() => setSection("bookings")}
-              className={`flex items-center gap-2 px-3 py-2 w-full rounded-lg ${section === "bookings" ? "bg-pink-500 text-white" : "hover:bg-gray-700"}`}
+              className={`flex items-center gap-3 px-4 py-3 w-full rounded-lg font-[500] transition-colors ${section === "bookings" ? "bg-accent text-primary" : "hover:bg-primary-mid hover:text-white"}`}
             >
               <Briefcase size={18} /> Bookings
             </button>
 
             <button
               onClick={() => setSection("favorites")}
-              className={`flex items-center gap-2 px-3 py-2 w-full rounded-lg ${section === "favorites" ? "bg-pink-500 text-white" : "hover:bg-gray-700"}`}
+              className={`flex items-center gap-3 px-4 py-3 w-full rounded-lg font-[500] transition-colors ${section === "favorites" ? "bg-accent text-primary" : "hover:bg-primary-mid hover:text-white"}`}
             >
               <Heart size={18} /> Favorites
             </button>
 
             <button
               onClick={() => setSection("settings")}
-              className={`flex items-center gap-2 px-3 py-2 w-full rounded-lg ${section === "settings" ? "bg-pink-500 text-white" : "hover:bg-gray-700"}`}
+              className={`flex items-center gap-3 px-4 py-3 w-full rounded-lg font-[500] transition-colors ${section === "settings" ? "bg-accent text-primary" : "hover:bg-primary-mid hover:text-white"}`}
             >
               <Settings size={18} /> Settings
             </button>
           </nav>
 
-          <div className="p-4 border-t border-gray-700">
-            <button onClick={handleLogout} className="flex items-center gap-2 text-red-400 hover:text-red-600 w-full">
+          <div className="p-4 border-t border-white/10">
+            <button onClick={handleLogout} className="flex items-center gap-3 text-[#ef4444] hover:text-[#dc2626] hover:bg-[#ef4444]/10 w-full px-4 py-3 rounded-lg transition-colors font-[500]">
               <LogOut size={18} /> Logout
             </button>
           </div>
@@ -146,74 +164,87 @@ export default function ClientDashboard() {
         {/* Main Content */}
         <main className="flex-1 p-6 space-y-6">
           {section === "profile" && (
-            <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
-              <h2 className="text-xl font-bold text-gray-800 mb-5 flex items-center gap-2">
-                <span className="text-pink-600">My Profile</span>
-                <span className="block h-1 w-8 bg-pink-600 rounded-full"></span>
+            <div className="bg-surface rounded-[16px] p-8 shadow-sm border border-border">
+              <h2 className="text-[20px] font-[700] text-primary mb-6 flex items-center gap-3 border-b border-border pb-4">
+                <User size={24} className="text-accent" />
+                My Profile
               </h2>
 
-              <div className="space-y-2">
-                <p className="text-lg font-semibold text-gray-900">{client.Name}</p>
-                <p className="text-gray-600 flex items-center gap-1">
-                  <MapPin size={16} className="text-pink-500" /> {client.City}
+              <div className="space-y-4">
+                <p className="text-[24px] font-[600] text-primary">{client.Name}</p>
+                <p className="text-secondary flex items-center gap-2 text-[15px]">
+                  <MapPin size={18} className="text-accent" /> {client.City}
                 </p>
-                <p className="text-black font-medium flex items-center gap-2">
-                  <span className="h-2 w-2 bg-black rounded-full"></span> Verified Client
+                <p className="text-success font-[500] flex items-center gap-2 bg-success/10 w-fit px-3 py-1 rounded-[20px] text-[13px]">
+                  <span className="h-2 w-2 bg-success rounded-full"></span> Verified Client
                 </p>
               </div>
             </div>
           )}
 
           {section === "bookings" && (
-            <div className="bg-white rounded-2xl p-6 shadow-xl">
-              <h2 className="text-xl font-semibold text-pink-600 mb-4">My Bookings</h2>
+            <div className="bg-surface rounded-[16px] p-8 shadow-sm border border-border">
+              <h2 className="text-[20px] font-[700] text-primary mb-6 flex items-center gap-3 border-b border-border pb-4">
+                <Briefcase size={24} className="text-accent" />
+                My Bookings
+              </h2>
               {client.bookings?.length ? (
                 <div className="space-y-4">
                   {client.bookings.map((job, idx) => (
-                    <div key={idx} className="p-4 bg-gray-50 rounded-xl shadow-sm">
-                      <p className="font-medium text-gray-900">{job.workerName}</p>
-                      <p className="text-gray-600">{job.service}</p>
-                      <p className="text-pink-600 font-semibold">Rs. {job.price}</p>
+                    <div key={idx} className="p-5 bg-surface-2 rounded-[12px] border border-border flex justify-between items-center hover:border-accent transition-colors">
+                      <div>
+                        <p className="font-[600] text-primary text-[16px]">{job.workerName}</p>
+                        <p className="text-secondary text-[14px] mt-1">{job.service}</p>
+                      </div>
+                      <p className="text-primary font-[700] text-[16px] bg-accent-light px-3 py-1 rounded-[8px]">Rs. {job.price}</p>
                     </div>
                   ))}
                 </div>
               ) : (
-                <p>No bookings yet</p>
+                <p className="text-muted text-[15px] italic">No bookings yet</p>
               )}
             </div>
           )}
 
           {section === "favorites" && (
-            <div className="bg-white rounded-2xl p-6 shadow-xl">
-              <h2 className="text-xl font-semibold text-pink-600 mb-4">Favorite Workers</h2>
+            <div className="bg-surface rounded-[16px] p-8 shadow-sm border border-border">
+              <h2 className="text-[20px] font-[700] text-primary mb-6 flex items-center gap-3 border-b border-border pb-4">
+                <Heart size={24} className="text-accent" />
+                Favorite Workers
+              </h2>
               {client.favorites?.length ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                   {client.favorites.map((worker, idx) => (
-                    <div key={idx} className="bg-gray-50 rounded-xl shadow-md p-4">
+                    <div key={idx} className="bg-surface-2 rounded-[12px] border border-border p-4 hover:shadow-md transition-shadow">
                       <div className="flex gap-4 items-center">
-                        <div className="w-16 h-16 relative rounded-full overflow-hidden border">
+                        <div className="w-[56px] h-[56px] relative rounded-full overflow-hidden border border-border">
                           <Image
                             src={`${API_BASE_URL}/uploads/${worker.Profile_Pic}`}
-                            alt="Worker"
+                            alt={`${worker.First_Name || 'Worker'}`}
                             fill
+                            sizes="56px"
                             className="object-cover"
                           />
                         </div>
                         <div>
-                          <p className="font-medium">{worker.First_Name}</p>
-                          <p className="text-pink-600 text-sm">{worker.Profession}</p>
+                          <p className="font-[600] text-primary text-[15px]">{worker.First_Name}</p>
+                          <p className="text-accent font-[500] text-[13px]">{worker.Profession}</p>
                         </div>
                       </div>
                     </div>
                   ))}
                 </div>
               ) : (
-                <p>No favorite workers</p>
+                <p className="text-muted text-[15px] italic">No favorite workers</p>
               )}
             </div>
           )}
 
-          {section === "settings" && <Setting id={slug} />}
+          {section === "settings" && (
+            <div className="bg-surface rounded-[16px] p-8 shadow-sm border border-border">
+                <Setting id={slug} />
+            </div>
+          )}
         </main>
       </div>
 

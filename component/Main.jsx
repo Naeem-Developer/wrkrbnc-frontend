@@ -6,21 +6,46 @@ import Footer from "./Footer";
 const Main = () => {
   return (
     <>
-     <div className="bg-gray-100 text-white text-center">
-      <h1
-        id="services"
-        className="text-3xl sm:text-4xl text-center text-black font-bold py-5"
-      >
-        We <span className="text-pink-500">Offer</span>
-      </h1>
+     <div className="bg-bg text-primary pb-20">
+      
+      {/* Search Bar Section */}
+      <div className="max-w-[720px] mx-auto -mt-[36px] relative z-30 px-4 sm:px-6 mb-16">
+        <div className="bg-surface rounded-[12px] shadow-[0_4px_24px_rgba(0,0,0,0.15)] flex items-center p-2">
+           <select className="bg-transparent text-secondary outline-none px-4 py-2 border-r border-border text-[14px]">
+             <option>All Services</option>
+             <option>Plumbing</option>
+             <option>AC Repairing</option>
+             <option>Electrician</option>
+             <option>Cleaning</option>
+             <option>Carpenter</option>
+           </select>
+           <input 
+             type="text" 
+             placeholder="Location (e.g., Lahore)"
+             className="flex-1 bg-transparent px-4 py-2 outline-none text-primary placeholder-muted text-[14px] sm:text-[16px]"
+           />
+           <button className="bg-accent text-primary px-[32px] py-[12px] rounded-r-[10px] rounded-l-none font-[600] hover:bg-accent-dark transition-colors">
+             Search
+           </button>
+        </div>
+      </div>
 
-      <p className="text-center max-w-2xl mx-auto px-4 font-semibold text-gray-700">
-        WrkrBnC connects you with verified local professionals for home and
-        commercial services — book skilled workers instantly with secure
-        payments and real-time tracking.
-      </p>
+      {/* Services Section */}
+      <div className="max-w-[1200px] mx-auto px-[24px]">
+        <h2
+          id="services"
+          className="text-[36px] text-center font-[700] mb-4 text-primary"
+        >
+          We <span className="text-accent">Offer</span>
+        </h2>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-6">
+        <p className="text-center max-w-2xl mx-auto mb-12 text-secondary text-[16px]">
+          WrkrBnC connects you with verified local professionals for home and
+          commercial services — book skilled workers instantly with secure
+          payments and real-time tracking.
+        </p>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-[24px]">
         <Services
           title="AC Repairing"
           dis="Expert AC mechanic services for quick repairs, maintenance, and installations. Reliable, affordable, and efficient solutions to keep you cool and comfortable. Book now for fast, professional service at your doorstep."
@@ -56,6 +81,7 @@ const Main = () => {
           dis="Hire skilled carpenters for furniture repair, custom woodwork, door fitting, and cabinet installation. Affordable, reliable services near you. Book professional today on WrkrBnc for quality craftsmanship."
           pic="carpenter.png"
         />
+      </div>
       </div>
       </div>
 

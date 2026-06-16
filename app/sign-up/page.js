@@ -30,34 +30,34 @@ const Signup = () => {
 
   return (
     <>
-      <div className="flex justify-center items-center min-h-screen  px-4">
+      <div className="flex justify-center items-center min-h-screen bg-bg px-4 py-12">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           className="w-full max-w-md"
         >
-          <div className="rounded-2xl shadow-2xl backdrop-blur-lg bg-white/90 p-8 text-center">
+          <div className="rounded-[16px] shadow-lg bg-surface border border-border p-8 text-center">
             {/* Heading */}
-            <h2 className="text-3xl sm:text-4xl font-bold mb-2 text-pink-500">
+            <h2 className="text-[28px] sm:text-[32px] font-[700] mb-2 text-primary tracking-tight">
               Join as a
             </h2>
-            <p className="text-black font-medium sm:font-semibold mb-8">
+            <p className="text-secondary font-[500] mb-8 text-[15px]">
               Choose your role to continue
             </p>
 
             {/* Options */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {/* Worker Option */}
               <button
                 onClick={() => handlerole("worker")}
-                className="group border-2 border-gray-200 rounded-xl p-6 sm:p-8 bg-white hover:border-pink-500 hover:shadow-lg transition-all duration-300 flex flex-col items-center justify-center"
+                className="group border border-border rounded-[12px] p-6 bg-surface-2 hover:bg-surface hover:border-accent hover:shadow-md transition-all duration-300 flex flex-col items-center justify-center cursor-pointer"
               >
-                <Briefcase className="h-10 w-10 text-black mb-3 group-hover:scale-110 transition-transform" />
-                <h3 className="text-base sm:text-lg font-semibold text-pink-500">
+                <Briefcase className="h-10 w-10 text-primary group-hover:text-accent mb-3 group-hover:scale-110 transition-transform" />
+                <h3 className="text-[16px] font-[600] text-primary group-hover:text-accent transition-colors">
                   Worker
                 </h3>
-                <p className="text-xs sm:text-sm text-gray-500 mt-1">
+                <p className="text-[13px] text-secondary mt-1">
                   Find your next job
                 </p>
               </button>
@@ -65,14 +65,14 @@ const Signup = () => {
               {/* Client Option */}
               <button
                 onClick={() => handlerole("client")}
-                className="group border-2 border-gray-200 rounded-xl p-6 sm:p-8 bg-white hover:border-pink-500 hover:shadow-lg transition-all duration-300 flex flex-col items-center justify-center"
+                className="group border border-border rounded-[12px] p-6 bg-surface-2 hover:bg-surface hover:border-accent hover:shadow-md transition-all duration-300 flex flex-col items-center justify-center cursor-pointer"
               >
-                <User className="h-10 w-10 text-black mb-3 group-hover:scale-110 transition-transform" />
-                <h3 className="text-base sm:text-lg font-semibold text-pink-500">
+                <User className="h-10 w-10 text-primary group-hover:text-accent mb-3 group-hover:scale-110 transition-transform" />
+                <h3 className="text-[16px] font-[600] text-primary group-hover:text-accent transition-colors">
                   Client
                 </h3>
-                <p className="text-xs sm:text-sm text-gray-500 mt-1">
-                  Hire professional workers
+                <p className="text-[13px] text-secondary mt-1">
+                  Hire professionals
                 </p>
               </button>
             </div>

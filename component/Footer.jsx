@@ -4,44 +4,42 @@ import React from 'react'
 const Footer = () => {
   return (
     <>
-    <footer className='bg-white text-pink-500 py-12'>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <footer className='bg-primary text-white/70 pt-16'>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
-              <h3 className="text-4xl  font-bold mb-4">WrkrBnC. </h3>
-              <p className="text-gray-800">Connecting businesses with top talent since 2018.</p>
+              <h3 className="text-4xl font-bold mb-4 text-white">Wrkr<span className="text-accent">BnC.</span></h3>
+              <p className="text-white/70 text-[14px] leading-relaxed">Connecting businesses with top talent since 2018.</p>
             </div>
             <div>
-              <h4 className="font-semibold mb-4">Company</h4>
-              <ul className="space-y-2">
-                <Link href="/aboutUs"><li className="text-gray-800 hover:text-pink-500 transition">About Us</li></Link>
-                <li><a href="#" className="text-gray-800 hover:text-pink-500 transition">Careers</a></li>
-                <li><a href="#" className="text-gray-800 hover:text-pink-500 transition">Blog</a></li>
+              <h4 className="font-semibold mb-4 text-white">Company</h4>
+              <ul className="space-y-3">
+                <Link href="/aboutUs"><li className="text-white/70 hover:text-accent transition-colors cursor-pointer">About Us</li></Link>
+                <li><a href="#" className="text-white/70 hover:text-accent transition-colors">Careers</a></li>
+                <li><a href="#" className="text-white/70 hover:text-accent transition-colors">Blog</a></li>
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-4">Resources</h4>
-              <ul className="space-y-2">
-                <li><a href="#" className="text-gray-800 hover:text-pink-500 transition">Help Center</a></li>
-                <li><a href="#" className="text-gray-800 hover:text-pink-500 transition">Pricing</a></li>
-                <li><a href="#" className="text-gray-800 hover:text-pink-500 transition">API</a></li>
+              <h4 className="font-semibold mb-4 text-white">Resources</h4>
+              <ul className="space-y-3">
+                <li><a href="#" className="text-white/70 hover:text-accent transition-colors">Help Center</a></li>
+                <li><a href="#" className="text-white/70 hover:text-accent transition-colors">Pricing</a></li>
+                <li><a href="#" className="text-white/70 hover:text-accent transition-colors">API</a></li>
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-4">Contact</h4>
-              <ul className="space-y-2">
-                <li className="text-gray-800">naeem01developer@gmail.com</li>
-                <li className="text-gray-800">+92 (345) 1242079</li>
-                <li className="text-gray-800">Faisalabad, Pakistan</li>
+              <h4 className="font-semibold mb-4 text-white">Contact</h4>
+              <ul className="space-y-3">
+                <li className="text-white/70">naeem01developer@gmail.com</li>
+                <li className="text-white/70">+92 (345) 1242079</li>
+                <li className="text-white/70">Faisalabad, Pakistan</li>
               </ul>
             </div>
-          </div>
-          <div className="border-t border-pink-700 mt-8 pt-8 text-center text-pink-500">
-            <p>Copyright © {new Date().getFullYear()} WrkrBnC. All rights reserved.</p>
           </div>
         </div>
-
-
+        <div className="bg-primary-dark border-t border-white/10 py-6 text-center text-white/70 text-[14px]">
+          <p>Copyright © {new Date().getFullYear()} WrkrBnC. All rights reserved.</p>
+        </div>
     </footer>
       
     </>

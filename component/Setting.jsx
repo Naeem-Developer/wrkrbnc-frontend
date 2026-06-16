@@ -11,7 +11,9 @@ const Setting = ({id}) => {
 
 
         try {
-            window.confirm("Do you want to delete Account Permanently?")
+            const isConfirmed = window.confirm("Do you want to delete Account Permanently?");
+            if (!isConfirmed) return;
+            
             const deleteAccount = await axios.delete(`${API_BASE_URL}/deleteUser/${id}`);
             if (deleteAccount.data.success) {   
                 setTimeout(() => {

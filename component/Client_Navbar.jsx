@@ -31,7 +31,7 @@ const Client_Navbar = () => {
           setUser(rsp.data.data);
         }
       } catch (error) {
-        handleError("Something went wrong while loading profile");
+        console.error("Profile load failed or user not logged in");
       }
     };
 
@@ -56,11 +56,11 @@ const Client_Navbar = () => {
 
 
   return (
-    <nav className="w-full shadow-md ">
+    <nav className="w-full shadow-md border-b border-border">
       {/* Top Navbar */}
-      <div className="flex items-center justify-between px-4 py-3 bg-white sm:px-6">
+      <div className="flex items-center justify-between px-4 py-3 bg-surface h-[72px] sm:px-6">
         {/* Logo */}
-        <div className="text-xl font-bold text-pink-500 sm:text-2xl">WrkrBnC.</div>
+        <div className="text-[22px] font-bold text-primary tracking-tight cursor-pointer">WrkrBnC.</div>
 
         {/* Search Bar - Hidden on mobile, visible on medium screens and up */}
         <form 
@@ -72,19 +72,19 @@ const Client_Navbar = () => {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search for services..."
-            className="w-full border border-gray-300 rounded-l-full py-2 px-4 focus:outline-none focus:border-pink-500 text-sm sm:text-base"
+            className="w-full border border-border bg-surface-2 text-primary rounded-l-full py-2 px-4 focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent-light text-sm sm:text-base"
           />
           <button 
             type="submit" 
-            className="bg-pink-500 hover:bg-pink-600 text-white px-4 rounded-r-full py-3"
+            className="bg-accent hover:bg-accent-dark text-primary font-medium px-4 rounded-r-full py-3 transition-colors"
           >
-            <Search className="w-5 h-4.5" />
+            <Search className="w-5 h-5" />
           </button>
         </form>
 
         {/* Mobile Search Button */}
         <button 
-          className="md:hidden relative  bg-pink-500 hover:bg-pink-600 text-white p-2 rounded-full ml-auto"
+          className="md:hidden relative bg-accent hover:bg-accent-dark text-primary p-2 rounded-full ml-auto transition-colors"
           onClick={toggleMobileMenu}
         >
           {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -97,26 +97,27 @@ const Client_Navbar = () => {
             alt="Profile"
             width={40}
             height={40}
-            className="rounded-full border border-pink-500"
+            sizes="40px"
+            className="rounded-full border border-border"
           />
-          <span className="font-medium text-gray-700">{user.Name}</span>
+          <span className="font-medium text-primary">{user.Name || "User"}</span>
         </div></Link>
       </div>
 
       {/* Mobile Search Bar - Only visible when menu is open */}
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-blue-50 px-4 py-3 border-t">
+        <div className="md:hidden bg-surface-2 px-4 py-3 border-t border-border">
           <form className="flex items-center w-full" onSubmit={handleSubmit}>
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search for services..."
-              className="w-full border border-gray-300 rounded-l-full py-2 px-4 focus:outline-none focus:border-pink-500 text-sm"
+              className="w-full border border-border bg-surface text-primary rounded-l-full py-2 px-4 focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent-light text-sm"
             />
             <button 
               type="submit" 
-              className="bg-pink-500 hover:bg-pink-600 text-white px-4 rounded-r-full py-2"
+              className="bg-accent hover:bg-accent-dark text-primary px-4 rounded-r-full py-2 transition-colors"
             >
               <Search className="w-5 h-5" />
             </button>
@@ -125,7 +126,7 @@ const Client_Navbar = () => {
       )}
 
       {/* Sub Navbar */}
-      <div className=" text-black bg-white px-4 py-2 hidden md:flex flex-wrap items-center justify-center gap-4 lg:gap-6 text-sm font-medium">
+      <div className="bg-surface px-4 py-2 hidden md:flex flex-wrap items-center justify-center gap-4 lg:gap-6 text-[14px] font-medium border-t border-border">
         {[
           "AC Repairing",
           "Plumbing",
@@ -138,7 +139,7 @@ const Client_Navbar = () => {
           <button
             key={idx}
             onClick={() => handleClick(item)}
-            className="hover:text-pink-700 cursor-pointer transition-colors whitespace-nowrap"
+            className="text-secondary hover:text-primary cursor-pointer transition-colors whitespace-nowrap"
           >
             {item}
           </button>
@@ -147,7 +148,7 @@ const Client_Navbar = () => {
 
       {/* Mobile Sub Navbar - Only visible when menu is open */}
       {isMobileMenuOpen && (
-        <div className=" text-white px-4 py-3 md:hidden">
+        <div className="text-primary bg-surface px-4 py-3 md:hidden">
           <div className="grid grid-cols-2 gap-2">
             {[
               "AC Repairing",
@@ -161,7 +162,7 @@ const Client_Navbar = () => {
               <button
                 key={idx}
                 onClick={() => handleClick(item)}
-                className="hover:text-blue-200 cursor-pointer transition-colors text-sm py-2 text-center bg-pink-400 rounded-lg hover:bg-pink-500"
+                className="text-secondary hover:text-primary hover:bg-surface-2 cursor-pointer transition-colors text-[14px] py-2 text-center bg-surface border border-border rounded-lg"
               >
                 {item}
               </button>
@@ -169,15 +170,16 @@ const Client_Navbar = () => {
           </div>
           
           {/* Mobile Profile Section */}
-         <Link href={`/users/${user._id}`} ><div className="flex items-center cursor-pointer gap-3 mt-4 pt-4 border-t border-emerald-500">
+         <Link href={`/users/${user._id}`} ><div className="flex items-center cursor-pointer gap-3 mt-4 pt-4 border-t border-border">
             <Image
               src="/upscaled_4k.png"
               alt="Profile"
               width={36}
               height={36}
-              className="rounded-full border border-pink-400"
+              sizes="36px"
+              className="rounded-full border border-border"
             />
-            <span className="font-medium text-pink-500">{user.Name}</span>
+            <span className="font-medium text-primary">{user.Name || "User"}</span>
           </div></Link> 
         </div>
       )}

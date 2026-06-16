@@ -42,21 +42,21 @@ const OTP_varificatoin = ({ email, role }) => {
 
   return (
     <>
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-500 via-amber-400 to-blue-600 px-4">
+      <div className="flex items-center justify-center min-h-screen bg-bg px-4 py-12">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           className="w-full max-w-md"
         >
-          <div className="bg-white/90 backdrop-blur-lg rounded-2xl shadow-2xl p-8">
+          <div className="bg-surface rounded-[16px] shadow-lg border border-border p-8">
             {/* Heading */}
             <div className="flex flex-col items-center">
-              <ShieldCheck className="h-12 w-12 text-amber-500 mb-3" />
-              <h2 className="text-3xl font-bold text-amber-500 text-center">
+              <ShieldCheck className="h-12 w-12 text-accent mb-3" />
+              <h2 className="text-[28px] font-[700] text-primary text-center tracking-tight">
                 Verify OTP
               </h2>
-              <p className="text-gray-600 mt-2 text-center">
+              <p className="text-secondary mt-2 text-center text-[15px]">
                 Please enter the OTP sent to your email.
               </p>
             </div>
@@ -69,23 +69,23 @@ const OTP_varificatoin = ({ email, role }) => {
                 type="text"
                 maxLength={6}
                 placeholder="Enter OTP"
-                className="w-full border border-gray-300 rounded-xl py-3 px-4 text-center text-lg tracking-widest focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-border bg-surface-2 text-primary rounded-[10px] py-3 px-4 text-center text-lg tracking-widest focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent transition-colors"
               />
 
               <button
                 type="submit"
-                className="w-full bg-blue-600 font-semibold text-white py-3 rounded-xl text-lg hover:bg-blue-700 transition-all"
+                className="w-full bg-accent text-primary font-[600] py-3.5 rounded-[10px] text-[16px] hover:bg-accent-dark transition-all mt-2"
               >
                 Verify OTP
               </button>
             </form>
 
             {/* Resend Option */}
-            <p className="text-center mt-6 text-sm text-gray-600">
+            <p className="text-center mt-6 text-[14px] text-secondary">
               Didn’t receive the code?{" "}
               <a
                 href="#"
-                className="text-blue-600 font-medium hover:underline hover:text-blue-800"
+                className="text-accent font-[500] hover:text-accent-dark transition-colors"
               >
                 Resend OTP
               </a>

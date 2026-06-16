@@ -3,30 +3,34 @@ import React from "react";
 
 const Services = ({ title, pic, dis }) => {
   return (
-    <div className="group relative flex flex-col justify-between h-auto sm:h-[60vh] w-full max-w-md mx-auto rounded-2xl shadow-xl p-6 m-4 bg-white/90 backdrop-blur-lg border-2 border-gray-100 transition-all duration-500 hover:shadow-2xl hover:-translate-y-1 ">
-      {/* Header */}
-      <div className="flex items-center gap-4">
-        <img
-          src={pic}
-          alt="Service"
-          className="w-14 h-14 sm:w-16 sm:h-16 bg-pink-50 object-cover rounded-full  shadow-md"
-        />
-        <h1 className="text-xl sm:text-2xl font-bold text-gray-800 group-hover:text-pink-500 transition duration-300">
+    <div className="group relative flex flex-col bg-surface rounded-[12px] border border-border p-[20px] transition-all duration-200 ease-in hover:-translate-y-[2px] hover:shadow-[0_8px_24px_rgba(15,31,61,0.12)] hover:border-accent">
+      {/* Icon Area */}
+      <div className="mb-4">
+        <div className="w-[48px] h-[48px] bg-accent-light rounded-full flex items-center justify-center p-2">
+          <img
+            src={pic}
+            alt={title}
+            className="w-full h-full object-contain"
+          />
+        </div>
+      </div>
+
+      {/* Title & Count Label */}
+      <div className="mb-2">
+        <h3 className="text-[16px] font-[600] text-primary group-hover:text-accent-dark transition-colors">
           {title}
-        </h1>
+        </h3>
+        <span className="text-[13px] text-muted block mt-1">24 workers</span>
       </div>
 
       {/* Description */}
-      <p className="mt-4 text-gray-600 text-sm sm:text-base leading-relaxed text-justify">
+      <p className="mt-2 text-secondary text-[14px] leading-relaxed line-clamp-3">
         {dis}
       </p>
 
-      {/* Button */}
-      <Link href={'/login'} ><button className="mt-6 self-start px-6 py-2.5 text-sm sm:text-base font-semibold rounded-xl bg-black text-white hover:bg-white  cursor-pointer">
-        Hire Me
-      </button></Link>
+      {/* Invisible link overlay for entire card */}
+      <Link href={`/login`} className="absolute inset-0 z-10" aria-label={`Hire ${title}`} />
     </div>
-
   );
 };
 

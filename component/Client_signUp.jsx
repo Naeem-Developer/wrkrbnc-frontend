@@ -111,25 +111,25 @@ const Client_signUp = ({ onBack }) => {
 
     return (
         <>
-            <div className="flex justify-center p-10 items-center min-h-screen  px-4">
+            <div className="flex justify-center p-10 items-center min-h-screen bg-bg px-4 py-12">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
                     className="w-full max-w-lg"
                 >
-                    <div className="rounded-2xl shadow-2xl backdrop-blur-lg bg-white/90 p-5">
-                        <h2 className="text-3xl font-bold text-center text-pink-600 mb-3">
+                    <div className="rounded-[16px] shadow-lg bg-surface border border-border p-8">
+                        <h2 className="text-[28px] font-[700] text-center text-primary mb-3 tracking-tight">
                             SignUp
                         </h2>
-                        <p className="text-center text-gray-600 mb-8">
+                        <p className="text-center text-secondary mb-8 text-[15px]">
                             Create an account to hire trusted workers
                         </p>
 
                         <form onSubmit={handlesubmit} className="space-y-5">
                             {/* Name */}
                             <div className="relative">
-                                <User className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+                                <User className="absolute left-3 top-3.5 h-5 w-5 text-muted" />
                                 <input
                                     onChange={handlechange}
                                     value={formdata.Name}
@@ -137,13 +137,13 @@ const Client_signUp = ({ onBack }) => {
                                     type="text"
                                     name="Name"
                                     placeholder="Enter Your Name"
-                                    className="w-full border border-gray-300 rounded-xl pl-10 py-3 focus:outline-none focus:ring-2 focus:ring-pink-500"
+                                    className="w-full border border-border bg-surface-2 text-primary rounded-[10px] pl-10 py-3 text-[15px] focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-colors"
                                 />
                             </div>
 
                             {/* Email */}
                             <div className="relative">
-                                <Mail className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+                                <Mail className="absolute left-3 top-3.5 h-5 w-5 text-muted" />
                                 <input
                                     onChange={handlechange}
                                     value={formdata.Email}
@@ -151,19 +151,19 @@ const Client_signUp = ({ onBack }) => {
                                     type="email"
                                     name="Email"
                                     placeholder="Enter Your Email"
-                                    className="w-full border border-gray-300 rounded-xl pl-10 py-3 focus:outline-none focus:ring-2 focus:ring-pink-500"
+                                    className="w-full border border-border bg-surface-2 text-primary rounded-[10px] pl-10 py-3 text-[15px] focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-colors"
                                 />
                             </div>
 
                             {/* City */}
                             <div className="relative">
-                                <MapPin className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+                                <MapPin className="absolute left-3 top-3.5 h-5 w-5 text-muted" />
                                 <select
                                     onChange={handlechange}
                                     value={formdata.City}
                                     required
                                     name="City"
-                                    className="w-full border border-gray-300 rounded-xl pl-10 py-3 focus:outline-none focus:ring-2 focus:ring-pink-500"
+                                    className="w-full border border-border bg-surface-2 text-primary rounded-[10px] pl-10 py-3 text-[15px] focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-colors appearance-none"
                                 >
                                     <option value="">Select your City</option>
                                     {punjabDistricts.map((district, index) => (
@@ -176,7 +176,7 @@ const Client_signUp = ({ onBack }) => {
 
                             {/* Address */}
                             <div className="relative">
-                                <Home className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+                                <Home className="absolute left-3 top-3.5 h-5 w-5 text-muted" />
                                 <input
                                     onChange={handlechange}
                                     value={formdata.Address}
@@ -184,26 +184,26 @@ const Client_signUp = ({ onBack }) => {
                                     type="text"
                                     name="Address"
                                     placeholder="Enter Your Address"
-                                    className="w-full border border-gray-300 rounded-xl pl-10 py-3 focus:outline-none focus:ring-2 focus:ring-pink-500"
+                                    className="w-full border border-border bg-surface-2 text-primary rounded-[10px] pl-10 py-3 text-[15px] focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-colors"
                                 />
                             </div>
 
                             {/* Password */}
                             <div className="relative">
-                                <Lock className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+                                <Lock className="absolute left-3 top-3.5 h-5 w-5 text-muted" />
                                 <input
                                     type={showPassword ? "text" : "password"}
                                     name="Password"
                                     placeholder="Enter your password"
                                     value={formdata.Password}
                                     onChange={handlechange}
-                                    className="w-full border border-gray-300 rounded-xl pl-10 pr-12 py-3 focus:outline-none focus:ring-2 focus:ring-pink-500"
+                                    className="w-full border border-border bg-surface-2 text-primary rounded-[10px] pl-10 pr-12 py-3 text-[15px] focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-colors"
                                     required
                                 />
                                 <button
                                     type="button"
                                     onClick={() => setShowPassword(!showPassword)}
-                                    className="absolute right-3 top-3 text-gray-500"
+                                    className="absolute right-3 top-3.5 text-muted hover:text-secondary transition-colors"
                                 >
                                     {showPassword ? (
                                         <Eye className="h-5 w-5" />
@@ -214,15 +214,15 @@ const Client_signUp = ({ onBack }) => {
                             </div>
 
                             {/* Agreement */}
-                            <div className="flex items-center gap-2 text-sm">
-                                <input required type="checkbox" id="Link-checkbox" />
-                                <label htmlFor="Link-checkbox">
+                            <div className="flex items-center gap-2 text-[14px]">
+                                <input required type="checkbox" id="Link-checkbox" className="accent-accent" />
+                                <label htmlFor="Link-checkbox" className="text-secondary">
                                     I agree to the WrkrBnC{" "}
-                                    <a className="text-pink-600 hover:underline" href="/user-agrement">
+                                    <a className="text-accent hover:text-accent-dark font-[500] transition-colors" href="/user-agrement">
                                         User Agreement
                                     </a>{" "}
                                     and{" "}
-                                    <a className="text-pink-600 hover:underline" href="/privacypolicy">
+                                    <a className="text-accent hover:text-accent-dark font-[500] transition-colors" href="/privacypolicy">
                                         Privacy Policy
                                     </a>.
                                 </label>
@@ -231,20 +231,20 @@ const Client_signUp = ({ onBack }) => {
                             {/* Submit Button */}
                             <button
                                 type="submit"
-                                className="w-full bg-pink-500 text-white py-3 rounded-xl text-lg font-semibold hover:bg-pink-600 transition-all"
+                                className="w-full bg-accent text-primary py-3.5 rounded-[10px] text-[16px] font-[600] hover:bg-accent-dark transition-all mt-2"
                             >
                                 Sign Up
                             </button>
                         </form>
 
                         {/* Links */}
-                        <div className="flex justify-between items-center mt-6 text-sm">
-                            <a href="/login" className="text-black hover:underline">
+                        <div className="flex justify-between items-center mt-6 text-[14px]">
+                            <a href="/login" className="text-secondary hover:text-primary transition-colors">
                                 Already have an account? Login
                             </a>
                             <button
                                 onClick={onBack}
-                                className="text-pink-600 hover:underline"
+                                className="text-accent hover:text-accent-dark font-[600] transition-colors"
                             >
                                 ← Back
                             </button>
