@@ -77,7 +77,7 @@ const Client_signUp = ({ onBack }) => {
                 form.append(key, formdata[key]);
             })
 
-            const response = await axios.post(`http://localhost:5000/sign-up/client`, form, {
+            const response = await axios.post(`${API_BASE_URL}/sign-up/client`, form, {
                 headers: { 'Content-Type': 'application/json' }
             })
             console.log(form)
