@@ -117,13 +117,13 @@ export default function WorkerDetails() {
               {/* Buttons */}
               <div className="mt-10 flex gap-4 flex-wrap">
                 <Link href={`/hireworker/${worker._id}`}>
-                  <button onClick={hire} className="bg-accent text-primary px-[32px] py-[14px] rounded-[10px] text-[16px] font-[600] shadow-md hover:bg-accent-dark transition-all">
+                  <button className="bg-accent text-primary px-[32px] py-[14px] rounded-[10px] text-[16px] font-[600] shadow-md hover:bg-accent-dark transition-all">
                     Hire Worker
                   </button>
                 </Link>
 
                 <Link href={`/contactworker/${worker._id}`}>
-                  <button onClick={connection} className="border-2 border-border text-primary px-[32px] py-[14px] rounded-[10px] text-[16px] font-[600] hover:bg-surface-2 transition-all">
+                  <button className="border-2 border-border text-primary px-[32px] py-[14px] rounded-[10px] text-[16px] font-[600] hover:bg-surface-2 transition-all">
                     Contact
                   </button>
                 </Link>
